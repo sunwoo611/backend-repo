@@ -1,9 +1,17 @@
 const express = require('express');
-const router = require('./router');
+const app = express();
 const port = 3000;
 
-const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/', router);
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
 
-app.listen(port, () => console.log(`Server in ${port}`));
+app.get('/', (req, res) => res.render('login.pug'));
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    return res.send(`Uesrname : ${username} / Password : ${password}`);
+});
+
+app.listen(port, () => console.log(`Server ${port}`));
