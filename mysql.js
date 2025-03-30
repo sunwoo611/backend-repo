@@ -5,12 +5,13 @@ const pool = mysql.createPool({
     port: 3306,
     user: 'ksw',
     password: 'tjsdn020501!',
-    database: 'course',
+    database: 'train',
 });
 
-const runQuery = async sql => {
+const runQuery = async (pstmt, data) => {
     const conn = await pool.getConnection();
     try {
+        const sql = conn.format(pstmt, data);
         const [result] = await conn.query(sql);
         return result;
     } finally {

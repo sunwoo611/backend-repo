@@ -8,15 +8,14 @@ const getScoreStats = async () => {
 };
 
 const getScoreByIdName = async (id, name) => {
-    const sql = `SELECT * FROM scores WHERE id = ${id} AND student = '${name}'`;
-    const results = await runQuery(sql);
+    const sql = `SELECT * FROM scores WHERE id = ? AND student = ?`;
+    const results = await runQuery(sql, [id, name]);
     return results[0];
 };
 
 const createScore = async (name, course, midterm, final) => {
-    const sql = 'INSERT INTO scores ' +
-                `VALUES (DEFAULT, '${name}', '${course}', ${midterm}, ${final})`;
-    const result = await runQuery(sql);
+    const sql = 'INSERT INTO scores VALUES (DEFAULT, ?, ?, ?, ?)';
+    const result = await runQuery(sql, [name, course, midterm, final]);
     return result;
 };
 
